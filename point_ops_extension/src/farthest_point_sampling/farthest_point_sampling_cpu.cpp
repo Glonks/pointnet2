@@ -2,29 +2,30 @@
 
 #include <limits>
 
-torch::Tensor FarthestPointSamplingCPU(
-    const torch::Tensor& points,
+at::Tensor FarthestPointSamplingCPU(
+    const at::Tensor& points,
     const int64_t num_centroids
 ) {
     const int64_t batch_size = points.size(0);
     const int64_t num_points = points.size(1);
     const int64_t num_features = points.size(2);
 
-    auto centroid_indices = torch::full(
+    auto centroid_indices = at::full(
         {batch_size, num_centroids},
         -1,
-        torch::TensorOptions().dtype(torch::kLong)
+        at::TensorOptions().dtype(at::kLong)
     );
 
-    auto min_distances_sq = torch::full(
+    auto min_distances_sq = at::full(
         {batch_size, num_points},
         std::numeric_limits<float>::infinity(),
-        torch::TensorOptions().dtype(torch::kFloat32)
+        at::TensorOptions().dtype(at::kFloat)
     );
 
-    auto seed = torch::randint(num_points, {batch_size}, torch::kLong);
+    auto seed = at::randint(num_points, {batch_size}, at::kLong);
     centroid_indices.select(1, 0).copy_(seed);
 
+    // accessors
     auto points_accessor = points.accessor<float, 3>();
     auto centroid_indices_accessor = centroid_indices.accessor<int64_t, 2>();
     auto min_distances_sq_accessor = min_distances_sq.accessor<float, 2>();

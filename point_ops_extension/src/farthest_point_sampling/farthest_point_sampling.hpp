@@ -2,12 +2,12 @@
 
 #include <torch/extension.h>
 
-torch::Tensor FarthestPointSamplingCPU(
-    const torch::Tensor& points,
+at::Tensor FarthestPointSamplingCPU(
+    const at::Tensor& points,
     const int64_t num_centroids
 );
 
-torch::Tensor FarthestPointSamplingCUDA(
-    const torch::Tensor& points,
+at::Tensor FarthestPointSamplingCUDA(
+    const at::Tensor& points,
     const int64_t num_centroids
 );

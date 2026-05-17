@@ -99,6 +99,7 @@ at::Tensor FarthestPointSamplingCUDA(
         at::TensorOptions().dtype(at::kFloat).device(points.device())
     );
 
+    // accesors
     auto points_accessor = points.packed_accessor32<float, 3, at::RestrictPtrTraits>();
     auto centroid_indices_accessor = centroid_indices.packed_accessor32<int64_t, 2, at::RestrictPtrTraits>();
     auto min_distances_sq_accessor = min_distances_sq.packed_accessor32<float, 2, at::RestrictPtrTraits>();
@@ -125,32 +126,32 @@ at::Tensor FarthestPointSamplingCUDA(
             break;
         case 256:
             farthest_point_sampling_kernel<256><<<num_blocks, num_threads, 0, stream>>>(
-                points_accessor, num_centroids, centroid_indices_accessor,  min_distances_sq_accessor
+                points_accessor, num_centroids, centroid_indices_accessor, min_distances_sq_accessor
             );
             break;
         case 128:
             farthest_point_sampling_kernel<128><<<num_blocks, num_threads, 0, stream>>>(
-                points_accessor, num_centroids, centroid_indices_accessor,  min_distances_sq_accessor
+                points_accessor, num_centroids, centroid_indices_accessor, min_distances_sq_accessor
             );
             break;
         case 64:
             farthest_point_sampling_kernel<64><<<num_blocks, num_threads, 0, stream>>>(
-                points_accessor, num_centroids, centroid_indices_accessor,  min_distances_sq_accessor
+                points_accessor, num_centroids, centroid_indices_accessor, min_distances_sq_accessor
             );
             break;
         case 32:
             farthest_point_sampling_kernel<32><<<num_blocks, num_threads, 0, stream>>>(
-                points_accessor, num_centroids, centroid_indices_accessor,  min_distances_sq_accessor
+                points_accessor, num_centroids, centroid_indices_accessor, min_distances_sq_accessor
             );
             break;
         case 16:
             farthest_point_sampling_kernel<16><<<num_blocks, num_threads, 0, stream>>>(
-                points_accessor, num_centroids, centroid_indices_accessor,  min_distances_sq_accessor
+                points_accessor, num_centroids, centroid_indices_accessor, min_distances_sq_accessor
             );
             break;
         case 8:
             farthest_point_sampling_kernel<8><<<num_blocks, num_threads, 0, stream>>>(
-                points_accessor, num_centroids, centroid_indices_accessor,  min_distances_sq_accessor
+                points_accessor, num_centroids, centroid_indices_accessor, min_distances_sq_accessor
             );
             break;
         case 4:
